@@ -60,7 +60,8 @@ const logout = (req, res) => {
   res.json({ message: 'Logged out successfully.' })
 }
 
-const uploadProfilePicture = (req, res) => {
+const uploadProfilePicture = async (req, res) => {
+  console.log('------ authenticated:', req.user)
   res.send('Upload profile picture')
 }
 

@@ -2,6 +2,7 @@
 // because "type": "module" is set in package.json
 import express from 'express'
 import dotenv from 'dotenv'
+import cookieParser from 'cookie-parser'
 
 // must have a '.js' extension when importing a file
 import authRouter from './routes/auth.route.js'
@@ -19,6 +20,9 @@ app.use(express.json()) // Middleware JSON
 
 // Register middleware for logging requests.
 app.use('/api/v1', reqLogger)
+
+// Register middleware to read cookies
+app.use(cookieParser()) // req.cookies
 
 app.use('/api/v1/auth', authRouter)
 
