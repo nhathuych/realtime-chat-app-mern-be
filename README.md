@@ -9,7 +9,7 @@ npm init -y
 
 Add packages
 ```
-npm i express mongoose dotenv jsonwebtoken bcryptjs cookie-parser socket.io
+npm i express cors mongoose dotenv jsonwebtoken bcryptjs cookie-parser socket.io
 ```
 ```
 npm i nodemon -D

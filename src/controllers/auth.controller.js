@@ -1,7 +1,6 @@
 import bcrypt from 'bcryptjs'
 import User from '../models/user.model.js'
 import { generateToken, setTokenInCookie } from '../lib/utils.js'
-import cloudinary from '../lib/cloudinary.js'
 
 const signup = async (req, res) => {
   try {
@@ -61,26 +60,4 @@ const logout = (req, res) => {
   res.json({ message: 'Logged out successfully.' })
 }
 
-const getUserProfile = (req, res) => {
-  res.status(200).json({ user: req.user })
-}
-
-const uploadProfilePicture = async (req, res) => {
-  console.log('------ authenticated:', req.user)
-  try {
-    const { avatar } = req.body
-    const userId = req.user._id
-
-    if (!avatar) return res.status(400).json({ message: 'Please provide an avatar.' })
-
-    const uploadedAvatar = await cloudinary.uploader.upload(avatar, { folder: 'avatars' })
-    const updatedUser = await User.findByIdAndUpdate(userId, { avatar: uploadedAvatar.secure_url }, { new: true })
-
-    res.status(200).json({ updatedUser })
-  } catch (error) {
-    console.log('Cloudinary upload error:', error)
-    res.status(500).json({ message: error.message })
-  }
-}
-
-export default { signup, login, logout, getUserProfile, uploadProfilePicture }
+export default { signup, login, logout }
