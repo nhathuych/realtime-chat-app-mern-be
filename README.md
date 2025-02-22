@@ -15,6 +15,11 @@ npm i express mongoose dotenv jsonwebtoken bcryptjs cookie-parser socket.io
 npm i nodemon -D
 ```
 
+Store images
+```
+npm i cloudinary
+```
+
 ## Run in development mode
 ```
 npm run dev
