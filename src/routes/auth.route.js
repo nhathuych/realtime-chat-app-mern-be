@@ -1,21 +1,11 @@
 import express from 'express'
+import authController from '../controllers/auth.controller.js'
 
 const router = express.Router()
 
-router.post('/signup', (req, res) => {
-  res.send('Signup route')
-})
-
-router.post('/login', (req, res) => {
-  res.send('Login route')
-})
-
-router.post('/logout', (req, res) => {
-  res.send('Logout route')
-})
-
-router.put('/upload-profile-picture', (req, res) => {
-  res.send('Upload profile picture')
-})
+router.post('/signup', authController.signup)
+router.post('/login', authController.login)
+router.post('/logout', authController.logout)
+router.put('/upload-profile-picture', authController.uploadProfilePicture)
 
 export default router
