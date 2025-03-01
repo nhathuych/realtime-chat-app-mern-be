@@ -11,6 +11,15 @@ const io = new Server(httpServer, {
   }
 })
 
+// Broadcast the new message to the receiver so they receive the latest messages
+const broadcastNewMessageToReceiver = (receiverId, newMessage) => {
+  const onlineReceiverSocketId = userSocketMap[receiverId]
+  if (!onlineReceiverSocketId) return // receiver is offline
+
+  // Broadcast only to the receiver
+  io.to(onlineReceiverSocketId).emit("newMessage", newMessage)
+}
+
 // Stores online users' socket connections
 const userSocketMap = {}
 
@@ -40,4 +49,4 @@ io.on("connection", (socket) => {
   })
 })
 
-export { io, app, httpServer }
+export { io, app, httpServer, broadcastNewMessageToReceiver }

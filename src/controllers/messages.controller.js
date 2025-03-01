@@ -1,5 +1,6 @@
 import Message from '../models/message.model.js'
 import cloudinary from '../lib/cloudinary.js'
+import { broadcastNewMessageToReceiver } from '../lib/socket.js'
 
 const getMessages = async (req, res) => {
   try {
@@ -33,6 +34,9 @@ const sendMessage = async (req, res) => {
     }
     const newMessage = new Message({ senderId, receiverId, text, imageUrl })
     await newMessage.save()
+
+    // Broadcast the new message to the receiver so they receive the latest messages
+    broadcastNewMessageToReceiver(receiverId, newMessage)
 
     res.status(201).json(newMessage)
   } catch (error) {
