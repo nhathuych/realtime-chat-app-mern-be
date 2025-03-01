@@ -11,11 +11,32 @@ const io = new Server(httpServer, {
   }
 })
 
+// Stores online users' socket connections
+const userSocketMap = {}
+
+const broadcastOnlineUsersToAllConnectedClients = () => {
+  // io.emit() is used to send events to all the connected clients
+  // Clients listen to "getOnlineUsers" to receive the list of currently online users
+  io.emit("getOnlineUsers", Object.keys(userSocketMap))
+
+  console.log("------ getOnlineUsers:", Object.keys(userSocketMap))
+}
+
 io.on("connection", (socket) => {
-  console.log("------ a user connected:", socket.id)
+  console.log("------ A user connected with socket ID:", socket.id)
+
+  // When a client connects to the socket, they provide their userId in the query params
+  // So we can retrieve their userId and store it in the userSocketMap
+  const userId = socket.handshake.query.userId
+  if (userId) userSocketMap[userId] = socket.id
+
+  broadcastOnlineUsersToAllConnectedClients()
 
   socket.on("disconnect", () => {
-    console.log("------ a user disconnected:", socket.id)
+    delete userSocketMap[userId]
+    broadcastOnlineUsersToAllConnectedClients()
+
+    console.log("------ A user disconnected. Socket ID:", socket.id)
   })
 })
 
