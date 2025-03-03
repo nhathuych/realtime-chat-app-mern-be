@@ -8,11 +8,13 @@ describe('Auth API', () => {
   let server
 
   beforeAll(async () => {
-    await mongoose.connect('mongodb://127.0.0.1:27017/realtime-chat-app-dbtest')
+    await mongoose.connect(process.env.GITHUB_ACTIONS_MONGO_URI || 'mongodb://127.0.0.1:27017/realtime-chat-app-dbtest')
     server = app.listen(3002)
 
     await request(app).post('/api/v1/auth/signup').send({ fullName: 'Elon Musk', email: 'elon@tesla.com', password: '123456' })
   })
+
+  afterEach(jest.restoreAllMocks)
 
   afterAll(async () => {
     await User.deleteMany({})
@@ -92,8 +94,6 @@ describe('Auth API', () => {
 
       expect(status).toBe(500)
       expect(body).toHaveProperty('message', 'Hashing error')
-
-      jest.restoreAllMocks() // Cleanup mock
     })
   })
 
