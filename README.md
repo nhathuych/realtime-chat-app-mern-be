@@ -35,3 +35,12 @@ Start the server
 ```
 docker compose up
 ```
+
+## Running unit tests
+```
+npm run test
+```
+
+coverage report is generated in `coverage/lcov-report/index.html`
+
+![Image](https://github.com/user-attachments/assets/2de55324-efb7-4637-9d50-9614a782d713)

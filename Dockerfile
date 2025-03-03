@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 3001
 
 # Command to run the application
-CMD ["node", "src/index.js"]
+CMD ["npm", "run", "dev"]

@@ -10,11 +10,9 @@ import authRouter from './routes/auth.route.js'
 import usersRouter from './routes/users.route.js'
 import messagesRouter from './routes/messages.route.js'
 import reqLogger from './lib/req.logger.js'
-import { connectDB } from './lib/database.js'
 import { app, httpServer } from './lib/socket.js'
 
 dotenv.config()
-const PORT = process.env.PORT || 3001
 
 // // already declared in /lib/socket.js, no need to redeclare
 // const app = express()
@@ -28,17 +26,17 @@ app.use(cors({
 // In controllers, req.body returns JSON data as an object, making it easier to use
 app.use(express.json()) // Middleware JSON
 
-// Register middleware for logging requests.
-app.use('/api/v1', reqLogger)
-
 // Register middleware to read cookies
 app.use(cookieParser()) // req.cookies
+
+// Register middleware for logging requests.
+app.use('/api/v1', reqLogger)
 
 app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/users', usersRouter)
 app.use('/api/v1/messages', messagesRouter)
 
-httpServer.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`)
-  connectDB()
-})
+export {
+  app, // for tests
+  httpServer // for running server only
+}
